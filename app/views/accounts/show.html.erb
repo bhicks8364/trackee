@@ -1,0 +1,51 @@
+<h1><%= @account.name %></h1>
+<h4><%= @account.about %></h4>
+<p><%= @account.address %> <br> <%= @account.city %>, <%= @account.state %> <%= @account.zipcode %></p>
+<br>
+
+
+<% if @account.is_a?(Company) %>
+<h3>Total Payroll Hours: <%= @account.account_entries.sum(:time) %> </h3>
+
+
+<h4>Account Entries</h4>
+
+
+
+<table border="1" cellpadding="5" cellspacing="5">
+    <tr>
+    <th>Employee</th>
+    <th>Hours</th>
+    <th>Submitted At</th>
+    </tr>
+    <% @account.account_entries.each do |entry| %>
+    <tr>
+		<td><%= entry.employee.name %></td>
+		<td><%= entry.time %> hours</td> 
+		<td><%= entry.created_at.strftime("%B %e, %Y at %I:%M %p") %></td>
+    </tr>
+    <% end %>
+</table>
+<% end %>
+
+<% if @account.is_a?(Employee) %>
+
+<h3>Total Hours: <%= @account.time_entries.sum(:time) %></h3>
+<h3>Total Gross Pay: $<%= (@account.time_entries.map &:cost).sum %></h3>
+
+
+
+<h4>Time Entries</h4>
+
+<table>
+    <% @account.time_entries.each do |entry| %>
+    <tr>
+        <td><%= entry.inspect %> </td>
+        <td><%= entry.created_at.strftime("%B %e, %Y at %I:%M %p") %></td>
+		<td><%= entry.employee.name %></td>
+		<td><%= entry.time %> hours</td> 
+    </tr>
+    <% end %>
+</table>
+<% end %>
+

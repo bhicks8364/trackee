@@ -1,0 +1,12 @@
+<ul> All Employees </ul>
+  <% @employees.each do |employee| %>
+ <li><%= link_to employee.name, employee_path(employee) %></li>
+<% end %>
+<br>
+<p> Add New Employee </p>
+<br>
+<%= form_for Employee.new do |f| %>
+  <%= f.text_field :name, placeholder: "Full Name" %>
+  <%= f.text_field :email, placeholder: "Email Address" %>
+  <%= f.submit %>
+<% end %>

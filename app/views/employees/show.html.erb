@@ -1,0 +1,22 @@
+<h1><%= @employee.name %></h1>
+
+<h3>Submit time form</h3>
+<%= form_for [@employee, TimeEntry.new] do |f| %>
+  <%= f.label :company %>
+  <%= f.collection_select(:account_id, Company.all, :id, :name) %>
+  <%= f.label :time %>
+  <%= f.text_field :time, placeholder: "Enter Hours" %>
+  <%= f.submit %>
+<% end %>
+
+<h3>Time Entries</h3>
+
+<% @employee.time_entries.each do |entry| %>
+  <div class="entry">
+   <h3><%= " #{entry.state} : #{@employee.name} worked at #{entry.account.name}" %></h3>
+
+   <p>Estimated Gross Pay: $ <%= entry.amount.to_s %></p>
+    <p> <%= "You submitted #{entry.time} hours for approval on #{entry.created_at.strftime("%B %e, %Y at %I:%M %p")}" %></p>
+
+  </div>
+<% end %>
